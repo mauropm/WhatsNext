@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>WhatsNext?</title>
+<script src="phonegap.0.9.4.min.js" type="text/javascript"></script>
+<style type="text/css" media="screen">
+@import "main.css";</style>
+<style type="text/css" media="screen">
+@import "themes/whatsnext/theme.css";</style>
+<style type="text/css" media="screen">
+@import "jqtouch/jqtouch.css";</style>
+<script src="jqtouch/jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="jqtouch/jqtouch.js" type="application/x-javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+            var jQT = $.jQTouch({
+            });
+            // Some sample Javascript functions:
+            $(function(){
+                function submitForm(){
+                    $el = $('#add form');
+                    if ($('#todo', $el).val().length > 1) {
+                        var itemid = $('#home ul li').length + 1;
+                        $('#home .incomplete').append($('<li><input type="checkbox" /> <span>' + ' ' + $('#todo', $el).val() + '</span></li>'));
+                    }
+                    jQT.goBack();
+                    $el.get(0).reset();
+                    return false;
+                }
+                $('#add form').submit(submitForm);
+                $('#add .whiteButton').click(submitForm);
+                $('.complete li, .incomplete li').bind('swipe', function(){
+                   $(this).toggleClass('editingmode');
+                });
+                $('input[type="checkbox"]').live('change', function(){
+                    var $el = $(this);
+                    if ($el.attr('checked')) {
+                        $el.parent().prependTo('.complete');
+                    } else {
+                        $el.parent().appendTo('.incomplete');
+                    }
+                });
+            });
+        </script>
+</head>
+<body>
+<div id="jqt">
+	<div id="home" selected="true" class="edgetoedge form">
+		<div class="toolbar">
+			<h1>WhatsNext?</h1>
+			<a onclick="jQT.goTo('#add')" class="btn2 slideup">Add</a>
+		</div>
+		<form>
+			<ul class="incomplete">
+				<li><input type="checkbox"/><span> Go to the bank</span></li>
+				<li><input type="checkbox"/><span> Buy pizza</span></li>
+				<li><input type="checkbox"/><span> Appointment with Dr.Pepper</span></li>
+			</ul>
+			<h4>Finished Tasks</h4>
+			<ul class="complete">
+				<li><input type="checkbox" checked/><span> CIS Homework</span></li>
+				<li><input type="checkbox" checked/><span> Math Homework</span></li>
+			</ul>
+		</form>
+	</div>
+	<div id="add" class="edit">
+		<form>
+			<div class="toolbar">
+				<h1>Add A Task</h1>
+				<a onclick="jQT.goBack()" class="btn2 goback">Cancel</a>
+			</div>
+			<ul class="rounded">
+				<li><input type="text" id="todo" placeholder="Enter your new task here."/></li>
+			</ul>
+			<a href="#" class="whiteButton" style="margin: 10px">Add</a>
+		</form>
+	</div>
+</div>
+</body>
+</html>
